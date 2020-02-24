@@ -30,9 +30,10 @@ except ImportError:
 
 
 def get_percent_alloc(values):
-    #updated to use abs values so offsetting longs/shorts
-    #don't inflate position size
-    #Still returns negative pct for shorts, so differentiation exists
+    #thought best to sum abs values, but in fact not, as
+    #could overestimate overall portfolio value, if cash
+    #from shorts burnt or underestimate, if cash invested in longs
+    #that appreciate and are sold
     """
     Determines a portfolio's allocations.
 
@@ -48,7 +49,7 @@ def get_percent_alloc(values):
     """
 
     return values.divide(
-        values.abs().sum(axis='columns'),
+        values.sum(axis='columns'),
         axis='rows'
     )
 
